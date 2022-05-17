@@ -5,9 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atitienei_daniel.hampterchat.R
+import com.atitienei_daniel.hampterchat.domain.model.ValidationEvent
+import com.atitienei_daniel.hampterchat.domain.repository.RegisterRepository
 import com.atitienei_daniel.hampterchat.domain.use_case.*
+import com.atitienei_daniel.hampterchat.util.Resource
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +26,8 @@ class RegisterViewModel @Inject constructor(
     private val validateUsername: ValidateUsername,
     private val validateName: ValidateName,
     private val validateGender: ValidateGender,
-    private val application: Application
+    private val application: Application,
+    private val repository: RegisterRepository
 ) : ViewModel() {
 
     val email = MutableLiveData<String>()
@@ -47,33 +55,33 @@ class RegisterViewModel @Inject constructor(
             application.getString(R.string.register_screen_title_requesting_email)
     }
 
-    fun onEvent(event: RegisterScreenEvents) {
+    fun onEvent(event: RegisterEvents) {
         when (event) {
-            is RegisterScreenEvents.OnEmailChanged -> {
+            is RegisterEvents.OnEmailChanged -> {
                 email.value = event.email
             }
-            is RegisterScreenEvents.OnGenderSelected -> {
+            is RegisterEvents.OnGenderSelected -> {
                 gender.value = event.gender
             }
-            is RegisterScreenEvents.OnNameChanged -> {
+            is RegisterEvents.OnNameChanged -> {
                 name.value = event.name
             }
-            is RegisterScreenEvents.OnPasswordChanged -> {
+            is RegisterEvents.OnPasswordChanged -> {
                 password.value = event.password
             }
-            is RegisterScreenEvents.OnUsernameChanged -> {
+            is RegisterEvents.OnUsernameChanged -> {
                 username.value = event.username
             }
-            is RegisterScreenEvents.OnNextImeClickEmailTextField -> {
+            is RegisterEvents.OnNextImeClickEmailTextField -> {
                 title.value = application.getString(
                     R.string.register_screen_title_requesting_password
                 )
             }
-            is RegisterScreenEvents.OnNextImeClickPasswordTextField -> {
+            is RegisterEvents.OnNextImeClickPasswordTextField -> {
                 title.value =
                     application.getString(R.string.register_screen_title_requesting_name_username_gender)
             }
-            is RegisterScreenEvents.OnValidateFields -> {
+            is RegisterEvents.OnValidateFields -> {
                 submitData()
             }
         }
@@ -105,12 +113,44 @@ class RegisterViewModel @Inject constructor(
             return
         }
 
-        viewModelScope.launch {
-            validationEventChannel.send(ValidationEvent.Success)
-        }
+        repository.createUserWithEmailAndPassword(
+            email = email.value!!,
+            password = password.value!!,
+            username = username.value!!,
+            name = name.value!!,
+            gender = gender.value!!
+        ).onEach { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    validationEventChannel.send(ValidationEvent.Success)
+                }
+                is Resource.Error -> {
+                    when (resource.error) {
+                        is FirebaseAuthWeakPasswordException -> {
+                            application.getString(R.string.error_weak_password)
+                        }
+                        is FirebaseAuthUserCollisionException -> {
+                            application.getString(R.string.error_user_exists)
+                        }
+                        else -> {}
+                    }
+                }
+                else -> {}
+            }
+        }.launchIn(viewModelScope)
+
     }
 
-    sealed class ValidationEvent {
-        object Success : ValidationEvent()
+    sealed class RegisterEvents {
+        data class OnPasswordChanged(val password: String) : RegisterEvents()
+        data class OnEmailChanged(val email: String) : RegisterEvents()
+        data class OnUsernameChanged(val username: String) : RegisterEvents()
+        data class OnNameChanged(val name: String) : RegisterEvents()
+        data class OnGenderSelected(val gender: String) : RegisterEvents()
+
+        object OnNextImeClickPasswordTextField : RegisterEvents()
+        object OnNextImeClickEmailTextField : RegisterEvents()
+
+        object OnValidateFields : RegisterEvents()
     }
 }
