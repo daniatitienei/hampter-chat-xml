@@ -15,7 +15,7 @@ class OnBoardingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = DataBindingUtil.inflate<FragmentOnBoardingBinding>(
             inflater,
             R.layout.fragment_on_boarding,
@@ -27,8 +27,8 @@ class OnBoardingFragment : Fragment() {
             view.findNavController().navigate(R.id.action_onBoardingFragment_to_registerFragment)
         }
 
-        binding.goToAuthenticationButton.setOnClickListener {
-            /* TODO */
+        binding.goToAuthenticationButton.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.action_onBoardingFragment_to_loginFragment)
         }
 
         return binding.root

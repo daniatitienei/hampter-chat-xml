@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "157248702739",
+    "project_id": "hampter-chat",
+    "storage_bucket": "hampter-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157248702739:android:1600f5fe228ecd6b77f2e6",
+        "android_client_info": {
+          "package_name": "com.atitienei_daniel.hampterchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157248702739-j22m3ub022q2csceb3numg6osug24ck9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4if4xvRJW2WXpCeESk7FaLZB95-euMP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157248702739-j22m3ub022q2csceb3numg6osug24ck9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

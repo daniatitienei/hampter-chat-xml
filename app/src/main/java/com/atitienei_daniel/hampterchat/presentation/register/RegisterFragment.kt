@@ -1,36 +1,33 @@
 package com.atitienei_daniel.hampterchat.presentation.register
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.atitienei_daniel.hampterchat.R
 import com.atitienei_daniel.hampterchat.databinding.FragmentRegisterBinding
+import com.atitienei_daniel.hampterchat.domain.model.ValidationEvent
+import com.atitienei_daniel.hampterchat.presentation.login.LoginFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
 
     private val viewModel by viewModels<RegisterViewModel>()
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = DataBindingUtil.inflate<FragmentRegisterBinding>(
             inflater,
             R.layout.fragment_register,
@@ -67,30 +64,30 @@ class RegisterFragment : Fragment() {
         })
 
         binding.genderDropdownMenu.doOnTextChanged { text, _, _, _ ->
-            viewModel.onEvent(RegisterScreenEvents.OnGenderSelected(text.toString()))
+            viewModel.onEvent(RegisterViewModel.RegisterEvents.OnGenderSelected(text.toString()))
         }
 
         binding.registerEmailTextInputEditText.doOnTextChanged { text, start, before, count ->
-            viewModel.onEvent(RegisterScreenEvents.OnEmailChanged(text.toString()))
+            viewModel.onEvent(RegisterViewModel.RegisterEvents.OnEmailChanged(text.toString()))
         }
 
         binding.registerPasswordTextInputEditText.doOnTextChanged { text, start, before, count ->
-            viewModel.onEvent(RegisterScreenEvents.OnPasswordChanged(text.toString()))
+            viewModel.onEvent(RegisterViewModel.RegisterEvents.OnPasswordChanged(text.toString()))
         }
 
         binding.registerNameTextInputEditText.doOnTextChanged { text, start, before, count ->
-            viewModel.onEvent(RegisterScreenEvents.OnNameChanged(text.toString()))
+            viewModel.onEvent(RegisterViewModel.RegisterEvents.OnNameChanged(text.toString()))
         }
 
         binding.registerUsernameTextInputEditText.doOnTextChanged { text, start, before, count ->
-            viewModel.onEvent(RegisterScreenEvents.OnUsernameChanged(text.toString()))
+            viewModel.onEvent(RegisterViewModel.RegisterEvents.OnUsernameChanged(text.toString()))
         }
 
         binding.registerEmailTextInputEditText.setOnEditorActionListener { textView, actionId, keyEvent ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_NEXT -> {
                     binding.registerPasswordTextInputEditText.requestFocus()
-                    viewModel.onEvent(RegisterScreenEvents.OnNextImeClickEmailTextField)
+                    viewModel.onEvent(RegisterViewModel.RegisterEvents.OnNextImeClickEmailTextField)
                     binding.registerPasswordTextInputLayout.visibility = View.VISIBLE
                     true
                 }
@@ -102,7 +99,7 @@ class RegisterFragment : Fragment() {
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_NEXT -> {
                     binding.registerNameTextInputEditText.requestFocus()
-                    viewModel.onEvent(RegisterScreenEvents.OnNextImeClickPasswordTextField)
+                    viewModel.onEvent(RegisterViewModel.RegisterEvents.OnNextImeClickPasswordTextField)
                     binding.registerNameTextInputLayout.visibility = View.VISIBLE
                     binding.registerUsernameTextInputLayout.visibility = View.VISIBLE
                     binding.genderDropdownMenuLayout.visibility = View.VISIBLE
@@ -114,7 +111,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding.signUpButton.setOnClickListener {
-            viewModel.onEvent(RegisterScreenEvents.OnValidateFields)
+            viewModel.onEvent(RegisterViewModel.RegisterEvents.OnValidateFields)
         }
 
         val genders = resources.getStringArray(R.array.genders)

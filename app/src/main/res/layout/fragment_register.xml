@@ -9,10 +9,6 @@
         <variable
             name="viewModel"
             type="com.atitienei_daniel.hampterchat.presentation.register.RegisterViewModel" />
-
-        <variable
-            name="event"
-            type="com.atitienei_daniel.hampterchat.presentation.register.RegisterScreenEvents" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,17 +42,17 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/register_title"
-            app:placeholderText="@string/register_screen_email_placeholder">
+            app:placeholderText="@string/register_email_placeholder">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_email_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/register_screen_email_hint"
+                android:hint="@string/email_hint"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:text="@{viewModel.email}"
-                android:textColorHint="#616161"
+                android:textColorHint="#546E7A"
                 tools:visibility="visible" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +62,6 @@
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:visibility="invisible"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -97,7 +92,6 @@
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:visibility="invisible"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -114,7 +108,7 @@
                 android:id="@+id/register_name_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/register_screen_name_placeholder"
+                android:hint="@string/name_hint"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:text="@{viewModel.name}"
@@ -127,7 +121,6 @@
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:visibility="invisible"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -144,7 +137,7 @@
                 android:id="@+id/register_username_text_input_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/register_screen_username_placeholder"
+                android:hint="@string/username_hint"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:text="@{viewModel.username}"
@@ -157,7 +150,6 @@
             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:visibility="invisible"
             app:boxCornerRadiusBottomEnd="8dp"
             app:boxCornerRadiusBottomStart="8dp"
@@ -174,7 +166,7 @@
                 android:id="@+id/genderDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/register_screen_gender_placeholder"
+                android:hint="@string/gender_hint"
                 android:inputType="none"
                 android:text="@{viewModel.gender}" />
 
@@ -184,7 +176,7 @@
             android:id="@+id/signUpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="20dp"
             android:text="@string/sign_up_button"
             android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
