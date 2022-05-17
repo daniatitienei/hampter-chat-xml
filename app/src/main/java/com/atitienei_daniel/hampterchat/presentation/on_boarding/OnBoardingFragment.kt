@@ -1,4 +1,4 @@
-package com.atitienei_daniel.hampterchat.presentation.screen
+package com.atitienei_daniel.hampterchat.presentation.on_boarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

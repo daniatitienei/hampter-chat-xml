@@ -6,7 +6,7 @@
     <string name="on_boarding_screen_go_to_authentication">I\'m already a hampter</string>
     <string name="register_screen_title_requesting_email">Firstly we need your email to know where to send some cheese</string>
     <string name="register_screen_email_placeholder">hampter@hampter.com</string>
-    <string name="register_screen_password_placeholder">Password</string>
+    <string name="register_screen_password_hint">Password</string>
     <string name="register_screen_title_requesting_password">Now let’s secure your cheese with a password</string>
     <string name="register_screen_title_requesting_name_username_gender">In the end we need to know your hampter name, username and gender</string>
     <string name="register_screen_name_placeholder">Name</string>
@@ -21,4 +21,12 @@
     <string name="gender_female">Female</string>
     <string name="gender_other">Other</string>
     <string name="sign_up_button">Let\'s gooo!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register_screen_email_hint">Email</string>
+
+    <string-array name="genders">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
 </resources>
