@@ -116,21 +116,33 @@ class RegisterViewModel @Inject constructor(
         repository.createUserWithEmailAndPassword(
             email = email.value!!,
             password = password.value!!,
-            username = username.value!!,
-            name = name.value!!,
-            gender = gender.value!!
         ).onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    validationEventChannel.send(ValidationEvent.Success)
+                    resource.data?.uid?.let { uid ->
+                        repository.storeUserData(
+                            uid = uid,
+                            username = username.value!!,
+                            name = name.value!!,
+                            gender = gender.value!!
+                        ).onEach { result ->
+                            when (result) {
+                                is Resource.Success -> {
+                                    validationEventChannel.send(ValidationEvent.Success)
+                                }
+                                else -> {}
+                            }
+                        }.launchIn(viewModelScope)
+                    }
                 }
                 is Resource.Error -> {
                     when (resource.error) {
                         is FirebaseAuthWeakPasswordException -> {
-                            application.getString(R.string.error_weak_password)
+                            passwordError.value =
+                                application.getString(R.string.error_weak_password)
                         }
                         is FirebaseAuthUserCollisionException -> {
-                            application.getString(R.string.error_user_exists)
+                            emailError.value = application.getString(R.string.error_user_exists)
                         }
                         else -> {}
                     }
@@ -138,7 +150,6 @@ class RegisterViewModel @Inject constructor(
                 else -> {}
             }
         }.launchIn(viewModelScope)
-
     }
 
     sealed class RegisterEvents {

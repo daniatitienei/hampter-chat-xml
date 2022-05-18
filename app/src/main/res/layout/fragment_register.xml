@@ -18,16 +18,16 @@
         android:paddingVertical="35dp">
 
         <TextView
-            android:id="@+id/register_title"
+            android:id="@+id/registerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="28sp"
-            app:layout_constraintBottom_toTopOf="@+id/register_email_text_input_layout"
+            app:layout_constraintBottom_toTopOf="@+id/registerEmailTextInputLayout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_email_text_input_layout"
+            android:id="@+id/registerEmailTextInputLayout"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,11 +41,11 @@
             app:errorEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_title"
+            app:layout_constraintTop_toBottomOf="@+id/registerTitle"
             app:placeholderText="@string/register_email_placeholder">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_email_text_input_edit_text"
+                android:id="@+id/registerEmailTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_hint"
@@ -58,7 +58,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_password_text_input_layout"
+            android:id="@+id/registerPasswordTextInputLayout"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,10 +73,10 @@
             app:errorEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_email_text_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/registerEmailTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_password_text_input_edit_text"
+                android:id="@+id/registerPasswordTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/register_screen_password_hint"
@@ -88,7 +88,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_name_text_input_layout"
+            android:id="@+id/registerNameTextInputLayout"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -102,10 +102,10 @@
             app:errorEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_password_text_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/registerPasswordTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_name_text_input_edit_text"
+                android:id="@+id/registerNameTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name_hint"
@@ -117,7 +117,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/register_username_text_input_layout"
+            android:id="@+id/registerUsernameTextInputLayout"
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,10 +131,10 @@
             app:errorEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_name_text_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/registerNameTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_username_text_input_edit_text"
+                android:id="@+id/registerUsernameTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/username_hint"
@@ -160,7 +160,7 @@
             app:errorEnabled="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_username_text_input_layout">
+            app:layout_constraintTop_toBottomOf="@+id/registerUsernameTextInputLayout">
 
             <AutoCompleteTextView
                 android:id="@+id/genderDropdownMenu"
