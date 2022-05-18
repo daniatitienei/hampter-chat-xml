@@ -1,5 +1,6 @@
 package com.atitienei_daniel.hampterchat.data.repository
 
+import com.atitienei_daniel.hampterchat.domain.model.User
 import com.atitienei_daniel.hampterchat.domain.repository.RegisterRepository
 import com.atitienei_daniel.hampterchat.util.Resource
 import com.google.firebase.auth.FirebaseAuth
@@ -21,9 +22,6 @@ class RegisterRepositoryImpl @Inject constructor(
     override fun createUserWithEmailAndPassword(
         email: String,
         password: String,
-        name: String,
-        username: String,
-        gender: String
     ): Flow<Resource<FirebaseUser>> = callbackFlow {
 
         trySend(Resource.Loading<FirebaseUser>())
@@ -41,4 +39,38 @@ class RegisterRepositoryImpl @Inject constructor(
 
         awaitClose { cancel() }
     }.flowOn(Dispatchers.IO)
+
+    override fun storeUserData(
+        uid: String,
+        name: String,
+        username: String,
+        gender: String
+    ): Flow<Resource<Nothing>> =
+        callbackFlow {
+            val user = User(
+                uid = uid,
+                name = name,
+                username = username,
+                gender = gender
+            )
+
+            trySend(Resource.Loading<Nothing>())
+
+            firestore.collection("users")
+                .document(uid)
+                .set(user)
+                .addOnCompleteListener { task ->
+                    val result = if (task.isSuccessful) {
+                        Resource.Success<Nothing>(null)
+                    } else {
+                        Resource.Error<Nothing>(data = null, error = task.exception)
+                    }
+
+                    trySend(result).isSuccess
+                }
+
+            awaitClose { close() }
+        }
+
+
 }

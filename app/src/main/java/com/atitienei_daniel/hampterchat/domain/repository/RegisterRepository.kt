@@ -9,8 +9,12 @@ interface RegisterRepository {
     fun createUserWithEmailAndPassword(
         email: String,
         password: String,
+    ): Flow<Resource<FirebaseUser>>
+
+    fun storeUserData(
+        uid: String,
         name: String,
         username: String,
         gender: String
-    ): Flow<Resource<FirebaseUser>>
+    ) : Flow<Resource<Nothing>>
 }

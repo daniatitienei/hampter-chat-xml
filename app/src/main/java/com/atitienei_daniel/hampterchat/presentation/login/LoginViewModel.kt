@@ -4,10 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atitienei_daniel.hampterchat.domain.model.ValidationEvent
+import com.atitienei_daniel.hampterchat.domain.repository.LoginRepository
 import com.atitienei_daniel.hampterchat.domain.use_case.ValidateEmail
 import com.atitienei_daniel.hampterchat.domain.use_case.ValidatePassword
+import com.atitienei_daniel.hampterchat.util.Resource
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val validateEmail: ValidateEmail,
-    private val validatePassword: ValidatePassword
+    private val validatePassword: ValidatePassword,
+    private val repository: LoginRepository
 ) : ViewModel() {
 
     var email = MutableLiveData<String>()
@@ -60,9 +67,26 @@ class LoginViewModel @Inject constructor(
             return
         }
 
-        viewModelScope.launch {
-            validationEventChannel.send(ValidationEvent.Success)
-        }
+        repository.loginWithEmailAndPassword(email = email.value!!, password = password.value!!)
+            .onEach { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        validationEventChannel.send(ValidationEvent.Success)
+                    }
+                    is Resource.Error -> {
+                        when (resource.error) {
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                passwordError.value = resource.error.localizedMessage
+                            }
+                            is FirebaseAuthInvalidUserException -> {
+                                emailError.value = resource.error.localizedMessage
+                            }
+                            else -> {}
+                        }
+                    }
+                    else -> {}
+                }
+            }.launchIn(viewModelScope)
     }
 
     sealed class LoginEvents {
