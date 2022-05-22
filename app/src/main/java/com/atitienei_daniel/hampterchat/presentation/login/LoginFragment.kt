@@ -47,13 +47,13 @@ class LoginFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.emailError.observe(viewLifecycleOwner, {
+        viewModel.emailError.observe(viewLifecycleOwner) {
             binding.loginEmailTextField.error = it
-        })
+        }
 
-        viewModel.passwordError.observe(viewLifecycleOwner, {
+        viewModel.passwordError.observe(viewLifecycleOwner) {
             binding.loginPasswordTextField.error = it
-        })
+        }
 
         binding.loginEmailTextInput.doOnTextChanged { text, start, before, count ->
             viewModel.onEvent(LoginViewModel.LoginEvents.OnEmailChanged(text.toString()))

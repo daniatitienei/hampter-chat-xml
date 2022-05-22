@@ -1,7 +1,9 @@
 package com.atitienei_daniel.hampterchat.data.di
 
 import com.atitienei_daniel.hampterchat.data.repository.RegisterRepositoryImpl
+import com.atitienei_daniel.hampterchat.data.repository.UserDataRepositoryImpl
 import com.atitienei_daniel.hampterchat.domain.repository.RegisterRepository
+import com.atitienei_daniel.hampterchat.domain.repository.UserDataRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,4 +26,13 @@ object FirebaseModule {
     @Provides
     @Singleton
     fun providesFirestore(): FirebaseFirestore = Firebase.firestore
+
+    @Provides
+    @Singleton
+    fun providesUserDataRepository(
+        auth: FirebaseAuth,
+        firestore: FirebaseFirestore
+    ): UserDataRepository = UserDataRepositoryImpl(
+        auth = auth, firestore = firestore
+    )
 }
