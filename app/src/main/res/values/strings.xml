@@ -28,6 +28,7 @@
     <string name="sign_in_button">I\'m not suspicious</string>
     <string name="error_weak_password">The password is weak</string>
     <string name="error_user_exists">Email is already used</string>
+    <string name="conversation_list_friend_title">Friends</string>
 
     <string-array name="genders">
         <item>Male</item>

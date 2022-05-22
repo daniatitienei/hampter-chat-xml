@@ -6,5 +6,6 @@ data class User(
     val username: String = "",
     val gender: String = "",
     val friendList: List<Person> = listOf(),
-    val requestList: List<ChatRequest> = listOf()
+    val requestList: List<ChatRequest> = listOf(),
+    val imageUrl: String = ""
 )
